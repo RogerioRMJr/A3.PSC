@@ -35,7 +35,7 @@ public class AlunoDAO {
 
     public Connection getConexao() {
 
-        Connection connection = null;  //instâ€šncia da conexâ€žo
+        Connection connection = null;  //instância da conexão
 
         try {
 
@@ -43,7 +43,7 @@ public class AlunoDAO {
             String driver = "com.mysql.cj.jdbc.Driver";
             Class.forName(driver);
 
-            // Configurar a conexâ€žo
+            // Configurar a conexão
             String server = "localhost"; //caminho do MySQL
             String database = "db_alunos";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
@@ -56,12 +56,12 @@ public class AlunoDAO {
             if (connection != null) {
                 System.out.println("Status: Conectado!");
             } else {
-                System.out.println("Status: NâˆšO CONECTADO!");
+                System.out.println("Status: NÃO CONECTADO!");
             }
 
             return connection;
 
-        } catch (ClassNotFoundException e) {  //Driver nâ€žo encontrado
+        } catch (ClassNotFoundException e) {  //Driver não encontrado
             System.out.println("O driver nao foi encontrado. " + e.getMessage() );
             return null;
 
@@ -124,7 +124,7 @@ public class AlunoDAO {
 
     }
 
-    // Deleta um aluno especÃŒfico pelo seu campo ID
+    // Deleta um aluno específico pelo seu campo ID
     public boolean DeleteAlunoBD(int id) {
         try {
             Statement stmt = this.getConexao().createStatement();
@@ -137,7 +137,7 @@ public class AlunoDAO {
         return true;
     }
 
-    // Edita um aluno especÃŒfico pelo seu campo ID
+    // Edita um aluno específico pelo seu campo ID
     public boolean UpdateAlunoBD(Aluno objeto) {
 
         String sql = "UPDATE tb_alunos set nome = ? ,idade = ? ,curso = ? ,fase = ? WHERE id = ?";

@@ -25,14 +25,16 @@ public class GerenciamentoProdutos extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
           this.setResizable(false);
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaProdutos.getModel();
         modelo.setRowCount(0);
         
     for (Object[] linha : listaDeDados) {
         modelo.addRow(linha);
         
     }
+        tabelaProdutos.getTableHeader().setReorderingAllowed(false);
     }
+    
 public static void adicionarNaMemoria(Object[] novaLinha) {
     listaDeDados.add(novaLinha);
 
@@ -54,7 +56,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jButton6 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaProdutos = new javax.swing.JTable();
         jButton7 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         txtProduto = new javax.swing.JTextField();
@@ -140,7 +142,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton6)
                             .addComponent(jButton5))))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,7 +163,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jButton1.setPreferredSize(new java.awt.Dimension(142, 31));
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -180,20 +182,20 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tabelaProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                tabelaProdutosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(6).setResizable(false);
+        jScrollPane1.setViewportView(tabelaProdutos);
+        if (tabelaProdutos.getColumnModel().getColumnCount() > 0) {
+            tabelaProdutos.getColumnModel().getColumn(0).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(1).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(2).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(3).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(4).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(5).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jButton7.setBackground(new java.awt.Color(102, 0, 0));
@@ -261,7 +263,6 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                                 .addComponent(jLabel2)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtCategoria)
@@ -280,7 +281,8 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtPrecoVenda)
-                                            .addComponent(txtPrecoCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                            .addComponent(txtPrecoCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jLabel7)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addComponent(btnCancelar)
@@ -483,27 +485,27 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecoVendaActionPerformed
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+    private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked
 
-    int linhaSelecionada = jTable1.getSelectedRow();
+    int linhaSelecionada = tabelaProdutos.getSelectedRow();
     
     
     if (linhaSelecionada != -1) {
 
-        txtCategoria.setText(jTable1.getValueAt(linhaSelecionada, 0).toString());
-        txtProduto.setText(jTable1.getValueAt(linhaSelecionada, 1).toString());
-        txtEstoque.setText(jTable1.getValueAt(linhaSelecionada, 2).toString());
-        txtFornecedor.setText(jTable1.getValueAt(linhaSelecionada, 3).toString());
-        txtPrecoCusto.setText(jTable1.getValueAt(linhaSelecionada, 4).toString());
-        txtPrecoVenda.setText(jTable1.getValueAt(linhaSelecionada, 5).toString());
+        txtCategoria.setText(tabelaProdutos.getValueAt(linhaSelecionada, 0).toString());
+        txtProduto.setText(tabelaProdutos.getValueAt(linhaSelecionada, 1).toString());
+        txtEstoque.setText(tabelaProdutos.getValueAt(linhaSelecionada, 2).toString());
+        txtFornecedor.setText(tabelaProdutos.getValueAt(linhaSelecionada, 3).toString());
+        txtPrecoCusto.setText(tabelaProdutos.getValueAt(linhaSelecionada, 4).toString());
+        txtPrecoVenda.setText(tabelaProdutos.getValueAt(linhaSelecionada, 5).toString());
         
     
     }
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTable1MouseClicked
+    }//GEN-LAST:event_tabelaProdutosMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-int linhaSelecionada = jTable1.getSelectedRow();
+int linhaSelecionada = tabelaProdutos.getSelectedRow();
     
     if (linhaSelecionada != -1) {
         try {
@@ -522,15 +524,15 @@ int linhaSelecionada = jTable1.getSelectedRow();
             
             // 4. ATUALIZAR A TABELA (Convertendo o número para R$ texto)
             // Atualiza colunas normais
-            jTable1.setValueAt(txtCategoria.getText(), linhaSelecionada, 0);
-            jTable1.setValueAt(txtProduto.getText(), linhaSelecionada, 1);
-            jTable1.setValueAt(txtEstoque.getText(), linhaSelecionada, 2);
-            jTable1.setValueAt(txtFornecedor.getText(), linhaSelecionada, 3);
+            tabelaProdutos.setValueAt(txtCategoria.getText(), linhaSelecionada, 0);
+            tabelaProdutos.setValueAt(txtProduto.getText(), linhaSelecionada, 1);
+            tabelaProdutos.setValueAt(txtEstoque.getText(), linhaSelecionada, 2);
+            tabelaProdutos.setValueAt(txtFornecedor.getText(), linhaSelecionada, 3);
             
             // Atualiza colunas de DINHEIRO com o formatador
-            jTable1.setValueAt(formatador.format(custo), linhaSelecionada, 4); // Custo
-            jTable1.setValueAt(formatador.format(venda), linhaSelecionada, 5); // Venda
-            jTable1.setValueAt(formatador.format(lucro), linhaSelecionada, 6); // Lucro
+            tabelaProdutos.setValueAt(formatador.format(custo), linhaSelecionada, 4); // Custo
+            tabelaProdutos.setValueAt(formatador.format(venda), linhaSelecionada, 5); // Venda
+            tabelaProdutos.setValueAt(formatador.format(lucro), linhaSelecionada, 6); // Lucro
 
             // Limpa os campos
             txtCategoria.setText("");
@@ -552,7 +554,7 @@ int linhaSelecionada = jTable1.getSelectedRow();
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
 
-    int linhaSelecionada = jTable1.getSelectedRow();
+    int linhaSelecionada = tabelaProdutos.getSelectedRow();
     
     
     if (linhaSelecionada == -1) {
@@ -572,7 +574,7 @@ int linhaSelecionada = jTable1.getSelectedRow();
     if (resposta == javax.swing.JOptionPane.YES_OPTION) {
         
       
-        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
         
         
         modelo.removeRow(linhaSelecionada);
@@ -599,7 +601,7 @@ int linhaSelecionada = jTable1.getSelectedRow();
     txtPrecoVenda.setText("");
     
  
-    jTable1.clearSelection();
+    tabelaProdutos.clearSelection();
     
   
     txtCategoria.requestFocus();        // TODO add your handling code here:
@@ -619,11 +621,11 @@ int linhaSelecionada = jTable1.getSelectedRow();
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 // 1. Pega o modelo da sua tabela
-    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+    DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
     
     // 2. Cria um organizador (Sorter) para esse modelo
     TableRowSorter<DefaultTableModel> classificador = new TableRowSorter<>(modelo);
-    jTable1.setRowSorter(classificador);
+    tabelaProdutos.setRowSorter(classificador);
     
     // 3. Pega o texto que o usuário digitou
     String texto = txtBuscar.getText();
@@ -643,11 +645,11 @@ int linhaSelecionada = jTable1.getSelectedRow();
 txtBuscar.setText("");
     
     // 2. Pega o modelo da tabela
-    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+    DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
     
     // 3. Cria o classificador e define o filtro como NULL (Sem filtro)
     TableRowSorter<DefaultTableModel> classificador = new TableRowSorter<>(modelo);
-    jTable1.setRowSorter(classificador);
+    tabelaProdutos.setRowSorter(classificador);
     classificador.setRowFilter(null); // Isso faz a mágica de mostrar tudo de novo
     
     // 4. (Opcional) Devolve o cursor para o campo de busca
@@ -682,7 +684,7 @@ txtBuscar.setText("");
     public void exportarParaTabela(String id, String produto, String estoque, String fornecedor, String precoCusto, String precoVenda) {
         
         
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) this.jTable1.getModel();
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) this.tabelaProdutos.getModel();
         
         try {
             // Calcula o lucro
@@ -731,7 +733,7 @@ txtBuscar.setText("");
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabelaProdutos;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCategoria;
     private javax.swing.JTextField txtEstoque;

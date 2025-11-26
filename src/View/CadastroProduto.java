@@ -17,6 +17,7 @@ public class CadastroProduto extends javax.swing.JFrame {
      */
     public CadastroProduto() {
         initComponents();
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
     }
 
@@ -97,11 +98,14 @@ public class CadastroProduto extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-cadastro-50 (1).png"))); // NOI18N
 
-        JMenuGerenciamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-cardápio-13.png"))); // NOI18N
+        JMenuGerenciamento.setBackground(new java.awt.Color(204, 0, 0));
+        JMenuGerenciamento.setForeground(new java.awt.Color(102, 0, 0));
+        JMenuGerenciamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-sair-15.png"))); // NOI18N
         JMenuGerenciamento.addActionListener(this::JMenuGerenciamentoActionPerformed);
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-gerenciamento-15.png"))); // NOI18N
-        jMenuItem1.setText("Gerenciamento ");
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
+        jMenuItem1.setForeground(new java.awt.Color(153, 0, 0));
+        jMenuItem1.setText("SAIR");
         jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
         JMenuGerenciamento.add(jMenuItem1);
 
@@ -296,21 +300,17 @@ private void avisoErro(String msg) {
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void JMenuGerenciamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMenuGerenciamentoActionPerformed
-        // TODO add your handling code here:
+    // TODO add your handling code here:
     }//GEN-LAST:event_JMenuGerenciamentoActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
-GerenciamentoProdutos tela = new GerenciamentoProdutos();
+        GerenciamentoProdutos tela = new GerenciamentoProdutos();
 
+        tela.setLocationRelativeTo(null);
 
-tela.setLocationRelativeTo(null); 
-
-
-tela.setVisible(true);
-
-
-this.dispose();        // TODO add your handling code here:
+        tela.setVisible(true); 
+         this.dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**

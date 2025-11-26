@@ -85,8 +85,8 @@ public class CadastroProduto extends javax.swing.JFrame {
         jLabel1.setText("CADASTRO DE PRODUTOS");
 
         BtnCancelar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-vassoura-25.png"))); // NOI18N
-        BtnCancelar.setText("Limpar");
+        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-x-24.png"))); // NOI18N
+        BtnCancelar.setText("Cancelar");
         BtnCancelar.setMaximumSize(new java.awt.Dimension(108, 32));
         BtnCancelar.setMinimumSize(new java.awt.Dimension(108, 32));
         BtnCancelar.addActionListener(this::BtnCancelarActionPerformed);

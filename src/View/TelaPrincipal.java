@@ -15,7 +15,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
      * Creates new form TelaPrincipal
      */
     
-    GerenciaAluno objeto = new GerenciaAluno();
+    GerenciaProduto objeto = new GerenciaProduto();
     
     public TelaPrincipal() {
         initComponents();

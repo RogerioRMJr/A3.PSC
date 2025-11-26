@@ -70,7 +70,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Produto", "Estoque", "Fornecedor", "Preço de custo", "Preço de venda", "Lucro"
+                "Categoria", "Produto", "Estoque", "Fornecedor", "Preço de custo", "Preço de venda", "Lucro"
             }
         ));
         jScrollPane1.setViewportView(GerenciamentoProdutos);

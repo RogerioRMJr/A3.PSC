@@ -27,53 +27,6 @@ public class GerenciamentoProdutos extends javax.swing.JFrame {
           this.setResizable(false);
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaProdutos.getModel();
         modelo.setRowCount(0);
-        javax.swing.table.DefaultTableCellRenderer pintor = new javax.swing.table.DefaultTableCellRenderer() {
-    @Override
-    public java.awt.Component getTableCellRendererComponent(
-            javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        
-        // Mantém o comportamento padrão (texto, alinhamento)
-        java.awt.Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-        try {
-            // 2. PEGA O VALOR DO ESTOQUE (Coluna 2)
-            // Se sua coluna de estoque for outra, mude o '2' abaixo!
-            Object valorEstoque = table.getValueAt(row, 2); 
-            int estoque = Integer.parseInt(valorEstoque.toString());
-
-            // 3. A LÓGICA DAS CORES
-            if (isSelected) {
-                // Se a linha estiver selecionada (clicada), mantém o azul padrão do sistema
-                // (Se não fizer isso, você não sabe onde clicou)
-                c.setBackground(table.getSelectionBackground());
-                c.setForeground(table.getSelectionForeground());
-                
-            } else {
-                // Se o estoque for BAIXO (menor que 5) -> Pinta de VERMELHO
-                if (estoque < 5) {
-                    c.setBackground(new java.awt.Color(255, 102, 102)); // Vermelho Claro
-                    c.setForeground(java.awt.Color.WHITE); // Letra Branca
-                } else {
-                    // Se estiver normal -> Pinta de BRANCO
-                    c.setBackground(java.awt.Color.WHITE);
-                    c.setForeground(java.awt.Color.BLACK);
-                }
-            }
-        } catch (Exception e) {
-            // Se der erro (ex: linha vazia), mantém branco
-            if (!isSelected) {
-                c.setBackground(java.awt.Color.WHITE);
-                c.setForeground(java.awt.Color.BLACK);
-            }
-        }
-        return c;
-    }
-};
-
-// 4. APLICA O PINTOR EM TODAS AS COLUNAS
-for (int i = 0; i < jTable1.getColumnCount(); i++) {
-    jTable1.getColumnModel().getColumn(i).setCellRenderer(pintor);
-}
         
     for (Object[] linha : listaDeDados) {
         modelo.addRow(linha);
@@ -249,6 +202,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-lixeira-vazia-24.png"))); // NOI18N
         jButton7.setText("Apagar Produto");
+        jButton7.setPreferredSize(new java.awt.Dimension(142, 31));
         jButton7.addActionListener(this::jButton7ActionPerformed);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -444,43 +398,28 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(410, 410, 410)
                         .addComponent(jLabel9)
-<<<<<<< Updated upstream
                         .addGap(410, 410, 410))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-=======
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
->>>>>>> Stashed changes
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(35, 35, 35)
                                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-<<<<<<< Updated upstream
                         .addGap(30, 30, 30))))
-=======
-                        .addContainerGap(44, Short.MAX_VALUE))))
->>>>>>> Stashed changes
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addComponent(jLabel9)
-<<<<<<< Updated upstream
                 .addGap(13, 13, 13)
-=======
-                .addGap(18, 18, 18)
->>>>>>> Stashed changes
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7))
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

@@ -499,9 +499,9 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
 
         tela.setLocationRelativeTo(null);
 
-        tela.setVisible(true);        // TODO add your handling code here:
+        tela.setVisible(true);        
                                             
-        this.dispose();        // TODO add your handling code here:
+        this.dispose();        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -510,7 +510,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
 
         tela.setLocationRelativeTo(null);
 
-        tela.setVisible(true);        // TODO add your handling code here:
+        tela.setVisible(true);       
                                             
             this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -523,63 +523,96 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
 
         tela.setVisible(true); 
          this.dispose();        
-             // TODO add your handling code here:
+       
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void txtPrecoVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecoVendaActionPerformed
-        // TODO add your handling code here:
+      
     }//GEN-LAST:event_txtPrecoVendaActionPerformed
 
     private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked
 
     int linhaSelecionada = tabelaProdutos.getSelectedRow();
     
-    
+   
     if (linhaSelecionada != -1) {
-
+        
+    
         txtCategoria.setText(tabelaProdutos.getValueAt(linhaSelecionada, 0).toString());
         txtProduto.setText(tabelaProdutos.getValueAt(linhaSelecionada, 1).toString());
         txtEstoque.setText(tabelaProdutos.getValueAt(linhaSelecionada, 2).toString());
         txtFornecedor.setText(tabelaProdutos.getValueAt(linhaSelecionada, 3).toString());
-        txtPrecoCusto.setText(tabelaProdutos.getValueAt(linhaSelecionada, 4).toString());
-        txtPrecoVenda.setText(tabelaProdutos.getValueAt(linhaSelecionada, 5).toString());
         
+      
+        String custoTabela = tabelaProdutos.getValueAt(linhaSelecionada, 4).toString();
+        String vendaTabela = tabelaProdutos.getValueAt(linhaSelecionada, 5).toString();
+        
+        
+        String custoLimpo = custoTabela.replace("R$", "").replace(" ", "");
+        String vendaLimpa = vendaTabela.replace("R$", "").replace(" ", "");
+        
+       
+        txtPrecoCusto.setText(custoLimpo);
+        txtPrecoVenda.setText(vendaLimpa);
     
     }
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_tabelaProdutosMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-int linhaSelecionada = tabelaProdutos.getSelectedRow();
+try {
+  
+    String custoLimpo = txtPrecoCusto.getText()
+            .replace("R$", "")  
+            .replace(" ", "")   
+            .replace(",", "."); 
+
+    String vendaLimpa = txtPrecoVenda.getText()
+            .replace("R$", "")
+            .replace(" ", "")
+            .replace(",", ".");
+
+   
+    double custo = Double.parseDouble(custoLimpo);
+    double venda = Double.parseDouble(vendaLimpa);
+    
+    
+    double lucro = venda - custo;
+
+    
+    
+} catch (NumberFormatException e) {
+    javax.swing.JOptionPane.showMessageDialog(this, "Erro: O valor informado não é um número válido!");
+}
+        int linhaSelecionada = tabelaProdutos.getSelectedRow();
     
     if (linhaSelecionada != -1) {
         try {
-            // 1. PEGAR OS VALORES (Limpando R$ e espaços caso o usuário tenha digitado)
+            
             String custoStr = txtPrecoCusto.getText().replace("R$", "").replace(" ", "").replace(",", ".");
             String vendaStr = txtPrecoVenda.getText().replace("R$", "").replace(" ", "").replace(",", ".");
             
             double custo = Double.parseDouble(custoStr);
             double venda = Double.parseDouble(vendaStr);
             
-            // 2. CALCULAR O LUCRO
+           
             double lucro = venda - custo;
 
-            // 3. PREPARAR O FORMATADOR DE MOEDA (BRASIL)
+           
             NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
             
-            // 4. ATUALIZAR A TABELA (Convertendo o número para R$ texto)
-            // Atualiza colunas normais
+            
             tabelaProdutos.setValueAt(txtCategoria.getText(), linhaSelecionada, 0);
             tabelaProdutos.setValueAt(txtProduto.getText(), linhaSelecionada, 1);
             tabelaProdutos.setValueAt(txtEstoque.getText(), linhaSelecionada, 2);
             tabelaProdutos.setValueAt(txtFornecedor.getText(), linhaSelecionada, 3);
             
-            // Atualiza colunas de DINHEIRO com o formatador
+            
             tabelaProdutos.setValueAt(formatador.format(custo), linhaSelecionada, 4); // Custo
             tabelaProdutos.setValueAt(formatador.format(venda), linhaSelecionada, 5); // Venda
             tabelaProdutos.setValueAt(formatador.format(lucro), linhaSelecionada, 6); // Lucro
 
-            // Limpa os campos
+            
             txtCategoria.setText("");
             txtProduto.setText("");
             txtEstoque.setText("");
@@ -663,7 +696,7 @@ int linhaSelecionada = tabelaProdutos.getSelectedRow();
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-    txtBuscar.setText("");
+   
     DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
     
     TableRowSorter<DefaultTableModel> classificador = new TableRowSorter<>(modelo);

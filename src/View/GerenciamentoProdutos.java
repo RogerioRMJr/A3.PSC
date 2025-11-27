@@ -6,6 +6,7 @@ package View;
 import java.util.ArrayList;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
@@ -18,48 +19,42 @@ public class GerenciamentoProdutos extends javax.swing.JFrame {
     public static ArrayList<Object[]> listaDeDados = new ArrayList<>();  
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GerenciamentoProdutos.class.getName());
 
-    /**
-     * Creates new form GerenciamentoProduto
-     */
+   
     public GerenciamentoProdutos() {
         initComponents();
-        // --- INÍCIO DO CÓDIGO DO ALERTA VERMELHO ---
 
-// 1. Cria um "Pintor" personalizado para a tabela
 javax.swing.table.DefaultTableCellRenderer pintor = new javax.swing.table.DefaultTableCellRenderer() {
     @Override
     public java.awt.Component getTableCellRendererComponent(
             javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         
-        // Mantém o comportamento padrão (texto, alinhamento)
+      
         java.awt.Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
         try {
-            // 2. PEGA O VALOR DO ESTOQUE (Coluna 2)
-            // Se sua coluna de estoque for outra, mude o '2' abaixo!
+           
             Object valorEstoque = table.getValueAt(row, 2); 
             int estoque = Integer.parseInt(valorEstoque.toString());
 
-            // 3. A LÓGICA DAS CORES
+           
             if (isSelected) {
-                // Se a linha estiver selecionada (clicada), mantém o azul padrão do sistema
-                // (Se não fizer isso, você não sabe onde clicou)
+                
                 c.setBackground(table.getSelectionBackground());
                 c.setForeground(table.getSelectionForeground());
                 
             } else {
-                // Se o estoque for BAIXO (menor que 5) -> Pinta de VERMELHO
+               
                 if (estoque < 5) {
-                    c.setBackground(new java.awt.Color(255, 102, 102)); // Vermelho Claro
-                    c.setForeground(java.awt.Color.WHITE); // Letra Branca
+                    c.setBackground(new java.awt.Color(255, 102, 102)); 
+                    c.setForeground(java.awt.Color.WHITE); 
                 } else {
-                    // Se estiver normal -> Pinta de BRANCO
+                  
                     c.setBackground(java.awt.Color.WHITE);
                     c.setForeground(java.awt.Color.BLACK);
                 }
             }
         } catch (Exception e) {
-            // Se der erro (ex: linha vazia), mantém branco
+            
             if (!isSelected) {
                 c.setBackground(java.awt.Color.WHITE);
                 c.setForeground(java.awt.Color.BLACK);
@@ -69,12 +64,11 @@ javax.swing.table.DefaultTableCellRenderer pintor = new javax.swing.table.Defaul
     }
 };
 
-// 4. APLICA O PINTOR EM TODAS AS COLUNAS
+
         for (int i = 0; i < tabelaProdutos.getColumnCount(); i++) {
          tabelaProdutos.getColumnModel().getColumn(i).setCellRenderer(pintor);
 }
 
-// --- FIM DO CÓDIGO ---
         this.setLocationRelativeTo(null);
           this.setResizable(false);
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaProdutos.getModel();
@@ -84,7 +78,7 @@ javax.swing.table.DefaultTableCellRenderer pintor = new javax.swing.table.Defaul
         modelo.addRow(linha);
         
     }
-    // Bloqueia o rendering na tabela de gerenciar produtos
+    
         tabelaProdutos.getTableHeader().setReorderingAllowed(false);
     }
 public static void adicionarNaMemoria(Object[] novaLinha) {
@@ -490,7 +484,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         tela.setLocationRelativeTo(null);
 
         tela.setVisible(true); 
-         this.dispose(); // TODO add your handling code here:
+         this.dispose(); 
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -666,7 +660,7 @@ try {
         txtPrecoVenda.setText("");
         
         javax.swing.JOptionPane.showMessageDialog(this, "Produto excluído com sucesso!");
-    }        // TOD        // TODO add your handling code here:
+    }        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -680,37 +674,53 @@ try {
     
     tabelaProdutos.clearSelection();
     
-    txtCategoria.requestFocus();        // TODO add your handling code here:
+    txtCategoria.requestFocus();       
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void jPanel4AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanel4AncestorAdded
-    // TODO add your handling code here:
+    
     }//GEN-LAST:event_jPanel4AncestorAdded
 
     private void jPanel6AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanel6AncestorAdded
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jPanel6AncestorAdded
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-            // TODO add your handling code here:
+           
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-   
+
     DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
-    
     TableRowSorter<DefaultTableModel> classificador = new TableRowSorter<>(modelo);
     tabelaProdutos.setRowSorter(classificador);
-      
-    String texto = txtBuscar.getText();  
     
-    if (texto.trim().length() == 0) {
-      
+    String texto = txtBuscar.getText().trim();
+    
+  
+    if (texto.length() == 0) {
+        classificador.setRowFilter(null); 
+        javax.swing.JOptionPane.showMessageDialog(this, "Digite algo para buscar!");
+        return; 
+    }
+
+    try {
+       
+        classificador.setRowFilter(RowFilter.regexFilter("(?i)" + Pattern.quote(texto)));
+        
+        
+        if (tabelaProdutos.getRowCount() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Nenhum produto encontrado com o nome: " + texto);
+            
+           
+            classificador.setRowFilter(null); 
+            txtBuscar.setText("");
+            txtBuscar.requestFocus();
+        }
+
+    } catch (Exception e) {
         classificador.setRowFilter(null);
-    } else {
-    
-        classificador.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
-    }      
+    }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -725,28 +735,9 @@ try {
     txtBuscar.requestFocus();        
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+ 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(() -> new GerenciamentoProdutos().setVisible(true));
     }
    
@@ -756,7 +747,7 @@ try {
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) this.tabelaProdutos.getModel();
         
         try {
-            // Calcula o lucro
+           
             double pVenda = Double.parseDouble(precoVenda.replace(",", "."));
             double pCusto = Double.parseDouble(precoCusto.replace(",", "."));
             double lucro = pVenda - pCusto;

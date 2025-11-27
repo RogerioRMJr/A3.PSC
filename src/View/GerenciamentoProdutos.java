@@ -23,6 +23,58 @@ public class GerenciamentoProdutos extends javax.swing.JFrame {
      */
     public GerenciamentoProdutos() {
         initComponents();
+        // --- INÍCIO DO CÓDIGO DO ALERTA VERMELHO ---
+
+// 1. Cria um "Pintor" personalizado para a tabela
+javax.swing.table.DefaultTableCellRenderer pintor = new javax.swing.table.DefaultTableCellRenderer() {
+    @Override
+    public java.awt.Component getTableCellRendererComponent(
+            javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        
+        // Mantém o comportamento padrão (texto, alinhamento)
+        java.awt.Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+        try {
+            // 2. PEGA O VALOR DO ESTOQUE (Coluna 2)
+            // Se sua coluna de estoque for outra, mude o '2' abaixo!
+            Object valorEstoque = table.getValueAt(row, 2); 
+            int estoque = Integer.parseInt(valorEstoque.toString());
+
+            // 3. A LÓGICA DAS CORES
+            if (isSelected) {
+                // Se a linha estiver selecionada (clicada), mantém o azul padrão do sistema
+                // (Se não fizer isso, você não sabe onde clicou)
+                c.setBackground(table.getSelectionBackground());
+                c.setForeground(table.getSelectionForeground());
+                
+            } else {
+                // Se o estoque for BAIXO (menor que 5) -> Pinta de VERMELHO
+                if (estoque < 5) {
+                    c.setBackground(new java.awt.Color(255, 102, 102)); // Vermelho Claro
+                    c.setForeground(java.awt.Color.WHITE); // Letra Branca
+                } else {
+                    // Se estiver normal -> Pinta de BRANCO
+                    c.setBackground(java.awt.Color.WHITE);
+                    c.setForeground(java.awt.Color.BLACK);
+                }
+            }
+        } catch (Exception e) {
+            // Se der erro (ex: linha vazia), mantém branco
+            if (!isSelected) {
+                c.setBackground(java.awt.Color.WHITE);
+                c.setForeground(java.awt.Color.BLACK);
+            }
+        }
+        return c;
+    }
+};
+
+// 4. APLICA O PINTOR EM TODAS AS COLUNAS
+        for (int i = 0; i < tabelaProdutos.getColumnCount(); i++) {
+         tabelaProdutos.getColumnModel().getColumn(i).setCellRenderer(pintor);
+}
+
+// --- FIM DO CÓDIGO ---
         this.setLocationRelativeTo(null);
           this.setResizable(false);
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaProdutos.getModel();
@@ -593,10 +645,8 @@ int linhaSelecionada = tabelaProdutos.getSelectedRow();
     txtPrecoCusto.setText("");
     txtPrecoVenda.setText("");
     
- 
     tabelaProdutos.clearSelection();
     
-  
     txtCategoria.requestFocus();        // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -609,44 +659,37 @@ int linhaSelecionada = tabelaProdutos.getSelectedRow();
     }//GEN-LAST:event_jPanel6AncestorAdded
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        // TODO add your handling code here:
+            // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-// 1. Pega o modelo da sua tabela
+    txtBuscar.setText("");
     DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
     
-    // 2. Cria um organizador (Sorter) para esse modelo
     TableRowSorter<DefaultTableModel> classificador = new TableRowSorter<>(modelo);
     tabelaProdutos.setRowSorter(classificador);
+      
+    String texto = txtBuscar.getText();  
     
-    // 3. Pega o texto que o usuário digitou
-    String texto = txtBuscar.getText();
-    
-    // 4. Aplica o filtro
     if (texto.trim().length() == 0) {
-        // Se estiver vazio, remove o filtro (mostra tudo)
+      
         classificador.setRowFilter(null);
     } else {
-        // Se tiver texto, cria um filtro "Regex" (expressão regular)
-        // "(?i)" significa: ignorar maiúsculas e minúsculas
+    
         classificador.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
-    }        // TODO add your handling code here:
+    }      
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-txtBuscar.setText("");
-    
-    // 2. Pega o modelo da tabela
+      txtBuscar.setText("");    
+  
     DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
-    
-    // 3. Cria o classificador e define o filtro como NULL (Sem filtro)
+  
     TableRowSorter<DefaultTableModel> classificador = new TableRowSorter<>(modelo);
     tabelaProdutos.setRowSorter(classificador);
-    classificador.setRowFilter(null); // Isso faz a mágica de mostrar tudo de novo
+    classificador.setRowFilter(null); 
     
-    // 4. (Opcional) Devolve o cursor para o campo de busca
-    txtBuscar.requestFocus();        // TODO add your handling code here:
+    txtBuscar.requestFocus();        
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**

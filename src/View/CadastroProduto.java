@@ -24,8 +24,8 @@ public class CadastroProduto extends javax.swing.JFrame {
     private void limparCampos() {
     t_categoria.setText("");
     t_produto.setText("");
-    t_precovenda.setText("");
     t_estoque.setText("");
+    t_precovenda.setText("");
     t_precocusto.setText("");
     t_fornecedor.setText("");
     
@@ -43,13 +43,13 @@ public class CadastroProduto extends javax.swing.JFrame {
         jLabelEstoque = new javax.swing.JLabel();
         jLabelPrecoVenda = new javax.swing.JLabel();
         jLabelPrecoCusto = new javax.swing.JLabel();
-        t_estoque = new javax.swing.JTextField();
+        t_precovenda = new javax.swing.JTextField();
         jLabelFornecedor = new javax.swing.JLabel();
         t_fornecedor = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         BtnCancelar = new javax.swing.JButton();
         BtnCadastrar = new javax.swing.JButton();
-        t_precovenda = new javax.swing.JTextField();
+        t_estoque = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         t_precocusto = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -76,7 +76,7 @@ public class CadastroProduto extends javax.swing.JFrame {
         jLabelPrecoCusto.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jLabelPrecoCusto.setText("Preço de Custo:");
 
-        t_estoque.addActionListener(this::t_estoqueActionPerformed);
+        t_precovenda.addActionListener(this::t_precovendaActionPerformed);
 
         jLabelFornecedor.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jLabelFornecedor.setText("Fornecedor:");
@@ -135,7 +135,7 @@ public class CadastroProduto extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(t_precovenda, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(t_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -146,7 +146,7 @@ public class CadastroProduto extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(t_precocusto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(t_fornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(t_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(t_precovenda, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(69, 69, 69)
@@ -184,8 +184,8 @@ public class CadastroProduto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelEstoque)
                     .addComponent(jLabelPrecoVenda)
-                    .addComponent(t_precovenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(t_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(t_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(t_precovenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnCadastrar)
@@ -201,14 +201,14 @@ try {
         
         String categoria = t_categoria.getText().trim();
         String produto = t_produto.getText().trim();
-        String estoque = t_precovenda.getText().trim();
+        String estoque = t_estoque.getText().trim();
         String fornecedor = t_fornecedor.getText().trim();
-        String pCusto = t_precovenda.getText().trim();
-        String pVenda = t_estoque.getText().trim();
+        String pCusto = t_precocusto.getText().trim();
+        String pVenda = t_precovenda.getText().trim();
 
         
         if (categoria.isEmpty()) {
-            avisoErro("Por favor, informe o ID do produto.");
+            avisoErro("Por favor, informe a categoria do produto.");
             t_categoria.requestFocus();
             return;
         }
@@ -219,7 +219,7 @@ try {
         }
         if (estoque.isEmpty()) {
             avisoErro("Informe a quantidade em Estoque.");
-            t_precovenda.requestFocus();
+            t_estoque.requestFocus();
             return;
         }
         if (fornecedor.isEmpty()) {
@@ -229,12 +229,12 @@ try {
         }
         if (pCusto.isEmpty()) {
             avisoErro("O Preço de Custo é obrigatório.");
-            t_precovenda.requestFocus();
+            t_precocusto.requestFocus();
             return;
         }
         if (pVenda.isEmpty()) {
             avisoErro("O Preço de Venda é obrigatório.");
-            t_estoque.requestFocus();
+            t_precovenda.requestFocus();
             return;
         }
 
@@ -289,9 +289,9 @@ private void avisoErro(String msg) {
 
     }//GEN-LAST:event_BtnCadastrarActionPerformed
 
-    private void t_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_estoqueActionPerformed
+    private void t_precovendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_precovendaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_t_estoqueActionPerformed
+    }//GEN-LAST:event_t_precovendaActionPerformed
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
                                            

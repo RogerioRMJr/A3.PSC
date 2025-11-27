@@ -17,6 +17,17 @@ public class CadastroProduto extends javax.swing.JFrame {
      */
     public CadastroProduto() {
         initComponents();
+        
+    try {
+      
+        java.awt.Image iconeTitulo = java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagens/logoicon.png"));
+        
+      
+        this.setIconImage(iconeTitulo);
+        
+    } catch (Exception e) {
+        System.out.println("Imagem do ícone não encontrada!");
+    }
         this.setResizable(false);
         this.setLocationRelativeTo(null);
     }
@@ -154,7 +165,6 @@ public class CadastroProduto extends javax.swing.JFrame {
                                         .addComponent(jLabel1)
                                         .addGap(85, 85, 85))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(109, 109, 109)
                                         .addComponent(BtnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))

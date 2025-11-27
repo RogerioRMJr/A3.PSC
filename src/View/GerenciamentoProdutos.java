@@ -22,6 +22,20 @@ public class GerenciamentoProdutos extends javax.swing.JFrame {
    
     public GerenciamentoProdutos() {
         initComponents();
+        java.awt.Dimension tamanhoFixo = new java.awt.Dimension(160, 40);
+
+//comanddo pra n mmudar o tamanho do botao
+
+btnAdicionar.setPreferredSize(tamanhoFixo);
+btnAdicionar.setMinimumSize(tamanhoFixo);
+btnAdicionar.setMaximumSize(tamanhoFixo);
+
+
+
+
+btnRemover.setPreferredSize(tamanhoFixo);
+btnRemover.setMinimumSize(tamanhoFixo);
+btnRemover.setMaximumSize(tamanhoFixo);
                 try {
 
         java.awt.Image iconeTitulo = java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagens/logoicon.png"));
@@ -112,10 +126,10 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnAdicionar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaProdutos = new javax.swing.JTable();
-        jButton7 = new javax.swing.JButton();
+        btnRemover = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         txtProduto = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
@@ -228,12 +242,12 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setBackground(new java.awt.Color(0, 102, 0));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-adicionar-20.png"))); // NOI18N
-        jButton1.setText("Adiconar Produto");
-        jButton1.setPreferredSize(new java.awt.Dimension(142, 31));
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        btnAdicionar.setBackground(new java.awt.Color(0, 102, 0));
+        btnAdicionar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-adicionar-20.png"))); // NOI18N
+        btnAdicionar.setText("Adiconar Produto");
+        btnAdicionar.setPreferredSize(new java.awt.Dimension(142, 31));
+        btnAdicionar.addActionListener(this::btnAdicionarActionPerformed);
 
         tabelaProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -270,11 +284,11 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
             tabelaProdutos.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        jButton7.setBackground(new java.awt.Color(102, 0, 0));
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-lixeira-vazia-24.png"))); // NOI18N
-        jButton7.setText("Apagar Produto");
-        jButton7.addActionListener(this::jButton7ActionPerformed);
+        btnRemover.setBackground(new java.awt.Color(102, 0, 0));
+        btnRemover.setForeground(new java.awt.Color(255, 255, 255));
+        btnRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-lixeira-vazia-24.png"))); // NOI18N
+        btnRemover.setText("Apagar Produto");
+        btnRemover.addActionListener(this::btnRemoverActionPerformed);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel4.addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -498,15 +512,16 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                         .addGap(414, 414, 414))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane1)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(378, 378, 378)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(145, 145, 145))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(162, 162, 162)
+                            .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(162, 162, 162))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(32, 32, 32)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
@@ -514,17 +529,17 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(jLabel9)
-                .addGap(29, 29, 29)
+                .addGap(49, 49, 49)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7))
+                    .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRemover))
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
         );
 
@@ -552,7 +567,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         this.dispose();        
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
 
         CadastroProduto tela = new CadastroProduto();
 
@@ -561,7 +576,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         tela.setVisible(true);       
                                             
             this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 
@@ -678,7 +693,7 @@ try {
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
 
     int linhaSelecionada = tabelaProdutos.getSelectedRow();
     
@@ -715,7 +730,7 @@ try {
         
         javax.swing.JOptionPane.showMessageDialog(this, "Produto excluído com sucesso!");
     }        
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
@@ -824,14 +839,14 @@ try {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnRemover;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

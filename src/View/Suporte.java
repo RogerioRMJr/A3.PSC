@@ -64,7 +64,7 @@ public class Suporte extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(0, 7, 22));
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-casa-24 (1).png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-casa-24 (1).png"))); // NOI18N
         jButton3.setText(" INÍCIO");
         jButton3.setToolTipText("");
         jButton3.setBorder(null);
@@ -75,7 +75,7 @@ public class Suporte extends javax.swing.JFrame {
         jButton5.setBackground(new java.awt.Color(0, 7, 22));
         jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-engrenagem-30.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-engrenagem-30.png"))); // NOI18N
         jButton5.setText("GERENCIAMENTO");
         jButton5.setBorder(null);
         jButton5.setBorderPainted(false);
@@ -85,7 +85,7 @@ public class Suporte extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(0, 7, 22));
         jButton6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-por-que-nós-masculino-24.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-por-que-nós-masculino-24.png"))); // NOI18N
         jButton6.setText("SUPORTE");
         jButton6.setBorder(null);
         jButton6.setBorderPainted(false);
@@ -106,7 +106,7 @@ public class Suporte extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton6)
                             .addComponent(jButton5))))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,7 +121,7 @@ public class Suporte extends javax.swing.JFrame {
         );
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-suporte-on-line-30.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-suporte-on-line-30.png"))); // NOI18N
         jLabel6.setText("ENTRE EM CONTATO");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -156,15 +156,14 @@ public class Suporte extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel4)
-                        .addComponent(txtAssunto, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(txtNome)
-                        .addComponent(jLabel1)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel4)
+                    .addComponent(txtAssunto, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(txtNome)
+                    .addComponent(jLabel1)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 16, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -192,7 +191,7 @@ public class Suporte extends javax.swing.JFrame {
         );
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-ajuda-30.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-ajuda-30.png"))); // NOI18N
         jLabel7.setText("DÚVIDAS FREQUENTES (FAQ)");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

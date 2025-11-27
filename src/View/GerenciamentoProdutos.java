@@ -152,7 +152,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jButton5.setBackground(new java.awt.Color(0, 7, 22));
         jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-engrenagem-30.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-engrenagem-24 (1).png"))); // NOI18N
         jButton5.setText("GERENCIAMENTO");
         jButton5.setBorder(null);
         jButton5.setBorderPainted(false);
@@ -162,7 +162,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jButton3.setBackground(new java.awt.Color(0, 7, 22));
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-casa-24 (1).png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-casa-24 (1).png"))); // NOI18N
         jButton3.setText(" INÍCIO");
         jButton3.setToolTipText("");
         jButton3.setBorder(null);
@@ -173,7 +173,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jButton6.setBackground(new java.awt.Color(0, 7, 22));
         jButton6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-por-que-nós-masculino-24.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-por-que-nós-masculino-24.png"))); // NOI18N
         jButton6.setText("SUPORTE");
         jButton6.setBorder(null);
         jButton6.setBorderPainted(false);
@@ -194,7 +194,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton6)
                             .addComponent(jButton5))))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,7 +210,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
 
         jButton1.setBackground(new java.awt.Color(0, 102, 0));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-adicionar-20.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-adicionar-20.png"))); // NOI18N
         jButton1.setText("Adiconar Produto");
         jButton1.setPreferredSize(new java.awt.Dimension(142, 31));
         jButton1.addActionListener(this::jButton1ActionPerformed);
@@ -252,9 +252,8 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
 
         jButton7.setBackground(new java.awt.Color(102, 0, 0));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-lixeira-vazia-24.png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-lixeira-vazia-24.png"))); // NOI18N
         jButton7.setText("Apagar Produto");
-        jButton7.setPreferredSize(new java.awt.Dimension(142, 31));
         jButton7.addActionListener(this::jButton7ActionPerformed);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -268,7 +267,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
             }
         });
 
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-x-24.png"))); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-x-24.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
@@ -280,7 +279,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jLabel2.setText("Produto:");
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-chave-inglesa-24.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-chave-inglesa-24.png"))); // NOI18N
         jButton2.setText("Editar");
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
@@ -291,7 +290,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jLabel4.setText("Fornecedor:");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-editar-30.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-editar-30.png"))); // NOI18N
         jLabel7.setText("ÁREA DE EDIÇÃO");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
@@ -384,14 +383,14 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         txtBuscar.addActionListener(this::txtBuscarActionPerformed);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-pesquisar-30.png"))); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-pesquisar-30.png"))); // NOI18N
         jLabel8.setText("PESQUISA");
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-voltar-24 (1).png"))); // NOI18N
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-voltar-24 (1).png"))); // NOI18N
         jButton8.setText("VOLTAR");
         jButton8.addActionListener(this::jButton8ActionPerformed);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-selecionado-24.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-selecionado-24.png"))); // NOI18N
         jButton4.setText("BUSCAR");
         jButton4.setMaximumSize(new java.awt.Dimension(88, 31));
         jButton4.setMinimumSize(new java.awt.Dimension(88, 31));
@@ -448,17 +447,18 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(175, 175, 175))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(410, 410, 410)
-                        .addComponent(jLabel9)
-                        .addGap(410, 410, 410))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(410, 410, 410)
+                                .addComponent(jLabel9))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jScrollPane1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(30, 30, 30))))
         );
         layout.setVerticalGroup(
@@ -471,7 +471,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton7))
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

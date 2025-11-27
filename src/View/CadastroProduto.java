@@ -64,6 +64,8 @@ public class CadastroProduto extends javax.swing.JFrame {
         jLabelCategoria.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jLabelCategoria.setText("Categoria:");
 
+        t_categoria.addActionListener(this::t_categoriaActionPerformed);
+
         jLabelProduto.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jLabelProduto.setText("Produto:");
 
@@ -85,22 +87,22 @@ public class CadastroProduto extends javax.swing.JFrame {
         jLabel1.setText("CADASTRO DE PRODUTOS");
 
         BtnCancelar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-x-24.png"))); // NOI18N
+        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-x-24.png"))); // NOI18N
         BtnCancelar.setText("Cancelar");
         BtnCancelar.setMaximumSize(new java.awt.Dimension(108, 32));
         BtnCancelar.setMinimumSize(new java.awt.Dimension(108, 32));
         BtnCancelar.addActionListener(this::BtnCancelarActionPerformed);
 
         BtnCadastrar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        BtnCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-salvar-25.png"))); // NOI18N
+        BtnCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-salvar-25.png"))); // NOI18N
         BtnCadastrar.setText("Cadastrar");
         BtnCadastrar.addActionListener(this::BtnCadastrarActionPerformed);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-cadastro-50 (1).png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-cadastro-50 (1).png"))); // NOI18N
 
         JMenuGerenciamento.setBackground(new java.awt.Color(204, 0, 0));
         JMenuGerenciamento.setForeground(new java.awt.Color(102, 0, 0));
-        JMenuGerenciamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons8-sair-15.png"))); // NOI18N
+        JMenuGerenciamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-sair-15.png"))); // NOI18N
         JMenuGerenciamento.addActionListener(this::JMenuGerenciamentoActionPerformed);
 
         jMenuItem1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
@@ -122,21 +124,19 @@ public class CadastroProduto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabelProduto)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(t_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(58, 58, 58)
-                                        .addComponent(t_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(t_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(t_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelProduto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(t_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(20, 20, 20)
+                                .addComponent(t_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabelPrecoVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -190,7 +190,7 @@ public class CadastroProduto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnCadastrar)
                     .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
@@ -313,6 +313,10 @@ private void avisoErro(String msg) {
         tela.setVisible(true); 
          this.dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void t_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_categoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_t_categoriaActionPerformed
 
     /**
      * @param args the command line arguments

@@ -3,10 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
+import DAO.ProdutoDAO; 
+import Model.Produto;   
 import java.util.ArrayList;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane; 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
@@ -16,7 +19,7 @@ import javax.swing.RowFilter;
  */
 public class GerenciamentoProdutos extends javax.swing.JFrame {
  
-    public static ArrayList<Object[]> listaDeDados = new ArrayList<>();  
+    private ProdutoDAO produtoDAO = new ProdutoDAO();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GerenciamentoProdutos.class.getName());
 
    
@@ -95,6 +98,18 @@ javax.swing.table.DefaultTableCellRenderer pintor = new javax.swing.table.Defaul
 
         this.setLocationRelativeTo(null);
           this.setResizable(false);
+          //INÍCIO CONFIGURAÇÃO BANCO DE DADOS
+        DefaultTableModel modeloBD = (DefaultTableModel) tabelaProdutos.getModel();
+        modeloBD.setColumnIdentifiers(new Object[]{"ID", "Categoria", "Produto", "Estoque", "Fornecedor", "Custo", "Venda", "Lucro"});
+        
+        // Esconder a coluna ID visualmente
+        tabelaProdutos.getColumnModel().getColumn(0).setMinWidth(0);
+        tabelaProdutos.getColumnModel().getColumn(0).setMaxWidth(0);
+        tabelaProdutos.getColumnModel().getColumn(0).setWidth(0);
+
+        // Carrega os dados
+        atualizarTabela();
+        //FIM CONFIGURAÇÃO BANCO DE DADOS
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaProdutos.getModel();
         modelo.setRowCount(0);
         
@@ -595,141 +610,72 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
 
     private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked
 
-    int linhaSelecionada = tabelaProdutos.getSelectedRow();
+    int linha = tabelaProdutos.getSelectedRow();
     
    
-    if (linhaSelecionada != -1) {
+    if (linha != -1) {
         
     
-        txtCategoria.setText(tabelaProdutos.getValueAt(linhaSelecionada, 0).toString());
-        txtProduto.setText(tabelaProdutos.getValueAt(linhaSelecionada, 1).toString());
-        txtEstoque.setText(tabelaProdutos.getValueAt(linhaSelecionada, 2).toString());
-        txtFornecedor.setText(tabelaProdutos.getValueAt(linhaSelecionada, 3).toString());
-        
-      
-        String custoTabela = tabelaProdutos.getValueAt(linhaSelecionada, 4).toString();
-        String vendaTabela = tabelaProdutos.getValueAt(linhaSelecionada, 5).toString();
-        
-        
-        String custoLimpo = custoTabela.replace("R$", "").replace(" ", "");
-        String vendaLimpa = vendaTabela.replace("R$", "").replace(" ", "");
-        
-       
-        txtPrecoCusto.setText(custoLimpo);
-        txtPrecoVenda.setText(vendaLimpa);
+       txtCategoria.setText(tabelaProdutos.getValueAt(linha, 1).toString());
+            txtProduto.setText(tabelaProdutos.getValueAt(linha, 2).toString());
+            txtEstoque.setText(tabelaProdutos.getValueAt(linha, 3).toString());
+            txtFornecedor.setText(tabelaProdutos.getValueAt(linha, 4).toString());
+            txtPrecoCusto.setText(tabelaProdutos.getValueAt(linha, 5).toString());
+            
+            String venda = tabelaProdutos.getValueAt(linha, 6).toString();
+            txtPrecoVenda.setText(venda.replace("R$", "").replace(" ", "").replace(".", ","));
     
     }
         
     }//GEN-LAST:event_tabelaProdutosMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-try {
-  
-    String custoLimpo = txtPrecoCusto.getText()
-            .replace("R$", "")  
-            .replace(" ", "")   
-            .replace(",", "."); 
 
-    String vendaLimpa = txtPrecoVenda.getText()
-            .replace("R$", "")
-            .replace(" ", "")
-            .replace(",", ".");
-
-   
-    double custo = Double.parseDouble(custoLimpo);
-    double venda = Double.parseDouble(vendaLimpa);
-    
-    
-    double lucro = venda - custo;
-
-    
-    
-} catch (NumberFormatException e) {
-    javax.swing.JOptionPane.showMessageDialog(this, "Erro: O valor informado não é um número válido!");
-}
-        int linhaSelecionada = tabelaProdutos.getSelectedRow();
-    
-    if (linhaSelecionada != -1) {
-        try {
-            
-            String custoStr = txtPrecoCusto.getText().replace("R$", "").replace(" ", "").replace(",", ".");
-            String vendaStr = txtPrecoVenda.getText().replace("R$", "").replace(" ", "").replace(",", ".");
-            
-            double custo = Double.parseDouble(custoStr);
-            double venda = Double.parseDouble(vendaStr);
-            
-           
-            double lucro = venda - custo;
-
-           
-            NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-            
-            
-            tabelaProdutos.setValueAt(txtCategoria.getText(), linhaSelecionada, 0);
-            tabelaProdutos.setValueAt(txtProduto.getText(), linhaSelecionada, 1);
-            tabelaProdutos.setValueAt(txtEstoque.getText(), linhaSelecionada, 2);
-            tabelaProdutos.setValueAt(txtFornecedor.getText(), linhaSelecionada, 3);
-            
-            
-            tabelaProdutos.setValueAt(formatador.format(custo), linhaSelecionada, 4); // Custo
-            tabelaProdutos.setValueAt(formatador.format(venda), linhaSelecionada, 5); // Venda
-            tabelaProdutos.setValueAt(formatador.format(lucro), linhaSelecionada, 6); // Lucro
-
-            
-            txtCategoria.setText("");
-            txtProduto.setText("");
-            txtEstoque.setText("");
-            txtFornecedor.setText("");
-            txtPrecoCusto.setText("");
-            txtPrecoVenda.setText("");
-            
-            javax.swing.JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
-
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Erro: Digite apenas números válidos nos preços (ex: 10.50)");
+        int linha = tabelaProdutos.getSelectedRow();
+        if (linha != -1) {
+            try {
+                // Pega ID da coluna oculta (0)
+                int id = Integer.parseInt(tabelaProdutos.getValueAt(linha, 0).toString());
+                
+                Produto p = new Produto();
+                p.setIdProduto(id);
+                p.setNomeProduto(txtProduto.getText());
+                p.setDescricaoProduto(txtCategoria.getText());
+                p.setQuantidadeEstoque(Integer.parseInt(txtEstoque.getText()));
+                
+                String precoStr = txtPrecoVenda.getText().replace("R$", "").replace(" ", "").replace(",", ".");
+                p.setPreco(Double.parseDouble(precoStr));
+                
+                if (produtoDAO.updateProdutoBD(p)) {
+                    JOptionPane.showMessageDialog(this, "Atualizado com sucesso!");
+                    limparCamposEdicao();
+                    atualizarTabela();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro ao editar: " + e.getMessage());
+            }
         }
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Selecione um produto para editar.");
-    }
+    
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
 
-    int linhaSelecionada = tabelaProdutos.getSelectedRow();
-    
-    
-    if (linhaSelecionada == -1) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Selecione um produto na tabela para excluir.");
-        return; 
-    }
+    int linha = tabelaProdutos.getSelectedRow();
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um produto.");
+            return;
+        }
 
-    
-    int resposta = javax.swing.JOptionPane.showConfirmDialog(
-            this, 
-            "Tem certeza que deseja apagar este produto?", 
-            "Excluir Produto", 
-            javax.swing.JOptionPane.YES_NO_OPTION
-    );
-
-  
-    if (resposta == javax.swing.JOptionPane.YES_OPTION) {
+        int id = Integer.parseInt(tabelaProdutos.getValueAt(linha, 0).toString());
+        int resp = JOptionPane.showConfirmDialog(this, "Deseja apagar do BANCO DE DADOS?", "Excluir", JOptionPane.YES_NO_OPTION);
         
-      
-        DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
-        
-        
-        modelo.removeRow(linhaSelecionada);
-        
-       
-        txtCategoria.setText("");
-        txtProduto.setText("");
-        txtEstoque.setText("");
-        txtFornecedor.setText("");
-        txtPrecoCusto.setText("");
-        txtPrecoVenda.setText("");
-        
-        javax.swing.JOptionPane.showMessageDialog(this, "Produto excluído com sucesso!");
-    }        
+        if (resp == JOptionPane.YES_OPTION) {
+            if (produtoDAO.deleteProdutoBD(id)) {
+                JOptionPane.showMessageDialog(this, "Apagado com sucesso!");
+                limparCamposEdicao();
+                atualizarTabela();
+            }
+        }
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -835,6 +781,38 @@ try {
         } catch (NumberFormatException e) {
             modelo.addRow(new Object[]{id, produto, estoque, fornecedor, precoCusto, precoVenda, "Erro"});
         }
+        // --- INÍCIO CONFIGURAÇÃO BANCO DE DADOS ---
+       // Método para buscar dados do banco e por na tabela
+    public void atualizarTabela() {
+        DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
+        modelo.setRowCount(0); // Limpa tabela
+        
+        ArrayList<Produto> lista = produtoDAO.getListaProdutos();
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+        for (Produto p : lista) {
+            modelo.addRow(new Object[]{
+                p.getIdProduto(),            // Coluna 0: ID (Oculto)
+                p.getDescricaoProduto(),     // Coluna 1: Categoria
+                p.getNomeProduto(),          // Coluna 2: Produto
+                p.getQuantidadeEstoque(),    // Coluna 3: Estoque
+                "---",                       // Coluna 4: Fornecedor (Não tem no BD)
+                "---",                       // Coluna 5: Custo (Não tem no BD)
+                nf.format(p.getPreco()),     // Coluna 6: Venda
+                "---"                        // Coluna 7: Lucro
+            });
+        }
+    }
+
+    private void limparCamposEdicao() {
+        txtCategoria.setText("");
+        txtProduto.setText("");
+        txtEstoque.setText("");
+        txtFornecedor.setText("");
+        txtPrecoCusto.setText("");
+        txtPrecoVenda.setText("");
+        tabelaProdutos.clearSelection();
+    }
     }
     
 

@@ -3,14 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
-import View.GerenciamentoProdutos;
+import DAO.ProdutoDAO;
+import Model.Produto;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Luiz
  */
 public class CadastroProduto extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastroProduto.class.getName());
+    private ProdutoDAO produtoDAO = new ProdutoDAO();
+     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastroProduto.class.getName());
 
     /**
      * Creates new form CadastroProduto
@@ -212,81 +215,34 @@ public class CadastroProduto extends javax.swing.JFrame {
     private void BtnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCadastrarActionPerformed
 try {
         
-        String categoria = t_categoria.getText().trim();
-        String produto = t_produto.getText().trim();
-        String estoque = t_estoque.getText().trim();
-        String fornecedor = t_fornecedor.getText().trim();
-        String pCusto = t_precocusto.getText().trim();
-        String pVenda = t_precovenda.getText().trim();
+        // Pegar dados da tela
+            String categoria = t_categoria.getText().trim();
+            String produtoNome = t_produto.getText().trim();
+            String estoqueStr = t_estoque.getText().trim();
+            String pVendaStr = t_precovenda.getText().trim().replace(",", ".");
 
-        
-        if (categoria.isEmpty()) {
-            avisoErro("Por favor, informe a categoria do produto.");
-            t_categoria.requestFocus();
-            return;
-        }
-        if (produto.isEmpty()) {
-            avisoErro("O nome do Produto é obrigatório.");
-            t_produto.requestFocus();
-            return;
-        }
-        if (estoque.isEmpty()) {
-            avisoErro("Informe a quantidade em Estoque.");
-            t_estoque.requestFocus();
-            return;
-        }
-        if (fornecedor.isEmpty()) {
-            avisoErro("Informe o nome do Fornecedor.");
-            t_fornecedor.requestFocus();
-            return;
-        }
-        if (pCusto.isEmpty()) {
-            avisoErro("O Preço de Custo é obrigatório.");
-            t_precocusto.requestFocus();
-            return;
-        }
-        if (pVenda.isEmpty()) {
-            avisoErro("O Preço de Venda é obrigatório.");
-            t_precovenda.requestFocus();
-            return;
-        }
+            // Validação
+            if (produtoNome.isEmpty() || pVendaStr.isEmpty() || estoqueStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Preencha Nome, Estoque e Preço de Venda!");
+                return;
+            }
 
-        
-        double custo = Double.parseDouble(pCusto.replace(",", "."));
-        double venda = Double.parseDouble(pVenda.replace(",", "."));
-        double lucro = venda - custo;
+            Produto p = new Produto();
+            p.setNomeProduto(produtoNome);
+            p.setDescricaoProduto(categoria); // Mapeando Categoria para Descrição
+            p.setQuantidadeEstoque(Integer.parseInt(estoqueStr));
+            p.setPreco(Double.parseDouble(pVendaStr));
+            p.setDataCadastro(LocalDate.now());
 
-        
-        Object[] novaLinha = {
-            categoria, produto, estoque, fornecedor, 
-            String.format("R$ %.2f", custo), 
-            String.format("R$ %.2f", venda), 
-            String.format("R$ %.2f", lucro)
-        };
-
-        
-        GerenciamentoProdutos.adicionarNaMemoria(novaLinha);
-
-        
-        String mensagemSucesso = "✅ Produto Cadastrado!  \n\n" +
-                                 "📋 Categoria: " + categoria + "\n" +
-                                 "🛒 Produto: " + produto + "\n" +
-                                 "🛍️ Estoque: " + estoque + "\n" +
-                                 "✈️ Fornecedor: " + fornecedor + "\n" +
-                                 "💲 Preço Custo: R$ " + String.format("%.2f", custo) + "\n" +
-                                 "💰 Preço Venda: R$ " + String.format("%.2f", venda) + "\n" +
-                                 "--------------------------------\n" +
-                                 "📈 Lucro Estimado: R$ " + String.format("%.2f", lucro);
-
-        javax.swing.JOptionPane.showMessageDialog(this, mensagemSucesso, "Sucesso", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        
-        // 7. LIMPEZA
-        limparCampos();
-
-    } catch (NumberFormatException e) {
-        avisoErro("Erro nos valores numéricos!\nVerifique se Preço e Estoque contêm apenas números.");
-    } catch (Exception e) {
-        avisoErro("Erro inesperado: " + e.getMessage());
+            // Salvar no Banco
+            if (produtoDAO.inserirProdutoBD(p)) {
+                JOptionPane.showMessageDialog(this, "✅ Produto salvo no Banco de Dados!");
+                limparCampos();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao salvar no banco.");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Erro: Verifique se os números estão corretos.");
     }
 }
 

@@ -7,128 +7,105 @@ public class Produto {
     private int idProduto;
     private String nomeProduto;
     private String descricaoProduto;
-    private String categoria;
-    private String fornecedor;
     private int quantidadeEstoque;
-    private double precoCusto;
-    private double precoVenda;
+    private double preco;
     private LocalDate dataCadastro;
 
-    // Construtor vazio (obrigatório para DAO)
+    // 1. Construtor Padrão
     public Produto() {
     }
 
-    // Construtor completo (para criar objetos mais facilmente)
-    public Produto(int idProduto, String nomeProduto, String descricaoProduto, String categoria,
-                   String fornecedor, int quantidadeEstoque, double precoCusto, double precoVenda) {
-
+    // 2. Construtor Completo (Para carregar do Banco de Dados)
+    public Produto(int idProduto, String nomeProduto, String descricaoProduto, int quantidadeEstoque, double preco, LocalDate dataCadastro) {
         this.idProduto = idProduto;
         this.nomeProduto = nomeProduto;
         this.descricaoProduto = descricaoProduto;
-        this.categoria = categoria;
-        this.fornecedor = fornecedor;
         this.quantidadeEstoque = quantidadeEstoque;
-        this.precoCusto = precoCusto;
-        this.precoVenda = precoVenda;
-
-        // já define a data de cadastro automaticamente
-        this.dataCadastro = LocalDate.now();
+        this.preco = preco;
+        this.dataCadastro = dataCadastro; // Data Lida do BD
     }
 
-    // GETTERS e SETTERS
+    // 3. Construtor para NOVOS PRODUTOS (ID gerado pelo banco)
+    public Produto(String nomeProduto, String descricaoProduto, int quantidadeEstoque, double preco) {
+        this.nomeProduto = nomeProduto;
+        this.descricaoProduto = descricaoProduto;
+        this.quantidadeEstoque = quantidadeEstoque;
+        this.preco = preco;
+        this.dataCadastro = LocalDate.now(); // Define data atual
+    }
+
+    // Getters
     public int getIdProduto() {
         return idProduto;
-    }
-
-    public void setIdProduto(int idProduto) {
-        this.idProduto = idProduto;
     }
 
     public String getNomeProduto() {
         return nomeProduto;
     }
 
-    public void setNomeProduto(String nomeProduto) {
-        this.nomeProduto = nomeProduto;
-    }
-
     public String getDescricaoProduto() {
         return descricaoProduto;
-    }
-
-    public void setDescricaoProduto(String descricaoProduto) {
-        this.descricaoProduto = descricaoProduto;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getFornecedor() {
-        return fornecedor;
-    }
-
-    public void setFornecedor(String fornecedor) {
-        this.fornecedor = fornecedor;
     }
 
     public int getQuantidadeEstoque() {
         return quantidadeEstoque;
     }
 
-    public void setQuantidadeEstoque(int quantidadeEstoque) {
-        this.quantidadeEstoque = quantidadeEstoque;
-    }
-
-    public double getPrecoCusto() {
-        return precoCusto;
-    }
-
-    public void setPrecoCusto(double precoCusto) {
-        this.precoCusto = precoCusto;
-    }
-
-    public double getPrecoVenda() {
-        return precoVenda;
-    }
-
-    public void setPrecoVenda(double precoVenda) {
-        this.precoVenda = precoVenda;
+    public double getPreco() {
+        return preco;
     }
 
     public LocalDate getDataCadastro() {
         return dataCadastro;
     }
 
+    // Setters
+    public void setIdProduto(int idProduto) {
+        this.idProduto = idProduto;
+    }
+
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
+    }
+
+    public void setDescricaoProduto(String descricaoProduto) {
+        this.descricaoProduto = descricaoProduto;
+    }
+
+    public void setQuantidadeEstoque(int quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
     public void setDataCadastro(LocalDate dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 
-    // LUCRO do produto (útil na tabela)
-    public double getLucro() {
-        return precoVenda - precoCusto;
+    // Método de Negócio
+    public double getValorTotal(){
+        return preco * quantidadeEstoque;
     }
 
-    // Total em estoque (se quiser usar)
-    public double getValorTotal() {
-        return precoVenda * quantidadeEstoque;
-    }
-
-    @Override
-    public String toString() {
-        return "Produto { " +
-                "id=" + idProduto +
-                ", nome='" + nomeProduto + '\'' +
-                ", categoria='" + categoria + '\'' +
-                ", fornecedor='" + fornecedor + '\'' +
-                ", estoque=" + quantidadeEstoque +
-                ", custo=" + precoCusto +
-                ", venda=" + precoVenda +
-                ", cadastro=" + dataCadastro +
-                " }";
-    }
+// toString() usando StringBuilder
+@Override
+public String toString(){
+    String precoFormatado = String.format("R$%.2f", preco);
+    String valorTotalFormatado = String.format("R$%.2f", getValorTotal());
+    
+    // Constrói a string de forma mais eficiente
+    StringBuilder sb = new StringBuilder("Produto {\n");
+    sb.append("  ID: ").append(idProduto).append("\n");
+    sb.append("  Nome: '").append(nomeProduto).append("'\n");
+    sb.append("  Descrição: '").append(descricaoProduto).append("'\n");
+    sb.append("  Preço Unitário: ").append(precoFormatado).append("\n");
+    sb.append("  Quantidade em Estoque: ").append(quantidadeEstoque).append("\n");
+    sb.append("  Valor Total (Estoque): ").append(valorTotalFormatado).append("\n");
+    sb.append("  Data de Cadastro: ").append(dataCadastro).append("\n");
+    sb.append("}");
+    
+    return sb.toString();
+}
 }

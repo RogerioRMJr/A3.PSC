@@ -1,44 +1,39 @@
 package DAO;
 
 import Model.Produto;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
-import java.io.IOException;
+import java.sql.DriverManager;
 
 public class ProdutoDAO {
 
     public ProdutoDAO() {}
 
     // ==========================
-    //  CONEXÃO COM BANCO
+    //  CONEXÃO COM BANCO (OK)
     // ==========================
     public Connection getConexao() {
-
         Connection connection = null;
-
         try {
             Properties props = loadConfigs();
-
             String host = props.getProperty("db.host");
             String port = props.getProperty("db.port");
             String database = props.getProperty("db.name");
             String user = props.getProperty("db.user");
             String password = props.getProperty("db.password");
-
-            String driver = "com.mysql.cj.jdbc.Driver";
-            Class.forName(driver);
+            
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
             String url = "jdbc:mysql://" + host + ":" + port + "/" + database
                     + "?useTimezone=true&serverTimezone=UTC";
 
             connection = DriverManager.getConnection(url, user, password);
-
             System.out.println(connection != null ? "Status: Conectado!" : "Status: NÃO CONECTADO!");
             return connection;
 
@@ -49,57 +44,53 @@ public class ProdutoDAO {
     }
 
     // ==========================
-    // CARREGAR CONFIGS
+    // CARREGAR CONFIGS (OK)
     // ==========================
     private Properties loadConfigs() {
         Properties props = new Properties();
         String fileName = "config.properties";
 
         try (var input = getClass().getClassLoader().getResourceAsStream(fileName)) {
-            if (input == null)
-                return props;
-
+            if (input == null) return props;
             props.load(input);
         } catch (IOException e) {
             System.out.println("Erro ao carregar " + fileName + ": " + e.getMessage());
         }
-
         return props;
     }
-
+    
     // ==========================
-    // MAIOR ID
+    // MAIOR ID (Refatorado com TWR)
     // ==========================
     public int maiorID() {
-        int maiorID = 0;
+        String sql = "SELECT MAX(id_produto) id FROM tb_produtos";
+        try (Connection conn = this.getConexao();
+             Statement stmt = conn.createStatement();
+             ResultSet res = stmt.executeQuery(sql)) {
 
-        try {
-            Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT MAX(id_produto) id FROM tb_produtos");
-
-            if (res.next()) maiorID = res.getInt("id");
-
-            stmt.close();
+            if (conn == null) return 0;
+            if (res.next()) {
+                return res.getInt("id");
+            }
         } catch (SQLException ex) {
             System.out.println("Erro ao buscar maior ID: " + ex.getMessage());
         }
-
-        return maiorID;
+        return 0;
     }
 
     // ==========================
-    // LISTAR TODOS
+    // LISTAR TODOS (Refatorado com TWR)
     // ==========================
     public ArrayList<Produto> getListaProdutos() {
         ArrayList<Produto> lista = new ArrayList<>();
+        String sql = "SELECT * FROM tb_produtos";
 
-        try {
-            Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM tb_produtos");
+        try (Connection conn = this.getConexao();
+             Statement stmt = conn.createStatement();
+             ResultSet res = stmt.executeQuery(sql)) {
 
             while (res.next()) {
                 Produto p = new Produto();
-
                 p.setIdProduto(res.getInt("id_produto"));
                 p.setNomeProduto(res.getString("nome_produto"));
                 p.setDescricaoProduto(res.getString("descricao_produto"));
@@ -114,74 +105,83 @@ public class ProdutoDAO {
 
                 lista.add(p);
             }
-
-            stmt.close();
-
         } catch (SQLException ex) {
             System.out.println("Erro ao listar produtos: " + ex.getMessage());
         }
-
         return lista;
     }
 
     // ==========================
-    // INSERIR PRODUTO
+    // INSERIR PRODUTO (Refatorado para AUTO-INCREMENTO e TWR)
     // ==========================
     public boolean inserirProdutoBD(Produto p) {
         String sql = """
         INSERT INTO tb_produtos
-        (id_produto, nome_produto, descricao_produto, categoria, fornecedor,
+        (nome_produto, descricao_produto, categoria, fornecedor,
         quantidade_estoque, preco_custo, preco_venda, data_cadastro)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """;
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """; // ATENÇÃO: id_produto foi removido do INSERT
 
-        try {
-            PreparedStatement stmt = this.getConexao().prepareStatement(sql);
+        try (Connection conn = this.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            
+            if (conn == null) return false;
 
-            int novoId = this.maiorID() + 1;
-            p.setIdProduto(novoId);
-
-            stmt.setInt(1, p.getIdProduto());
-            stmt.setString(2, p.getNomeProduto());
-            stmt.setString(3, p.getDescricaoProduto());
-            stmt.setString(4, p.getCategoria());
-            stmt.setString(5, p.getFornecedor());
-            stmt.setInt(6, p.getQuantidadeEstoque());
-            stmt.setDouble(7, p.getPrecoCusto());
-            stmt.setDouble(8, p.getPrecoVenda());
+            // Define os 8 parâmetros restantes (sem o ID)
+            stmt.setString(1, p.getNomeProduto());
+            stmt.setString(2, p.getDescricaoProduto());
+            stmt.setString(3, p.getCategoria());
+            stmt.setString(4, p.getFornecedor());
+            stmt.setInt(5, p.getQuantidadeEstoque());
+            stmt.setDouble(6, p.getPrecoCusto());
+            stmt.setDouble(7, p.getPrecoVenda());
 
             if (p.getDataCadastro() != null)
-                stmt.setDate(9, java.sql.Date.valueOf(p.getDataCadastro()));
+                stmt.setDate(8, java.sql.Date.valueOf(p.getDataCadastro()));
             else
-                stmt.setDate(9, null);
+                stmt.setDate(8, null);
 
             stmt.execute();
-            stmt.close();
 
+            // Obtém o ID gerado pelo banco e atualiza o objeto Model
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    p.setIdProduto(generatedKeys.getInt(1));
+                }
+            }
             return true;
 
         } catch (SQLException erro) {
-            throw new RuntimeException(erro);
+            System.out.println("Erro ao inserir produto: " + erro.getMessage());
+            return false;
         }
     }
 
     // ==========================
-    // DELETAR
+    // DELETAR (Refatorado para PreparedStatement e TWR - CORREÇÃO DE SEGURANÇA)
     // ==========================
     public boolean deleteProdutoBD(int idProduto) {
-        try {
-            Statement stmt = this.getConexao().createStatement();
-            stmt.executeUpdate("DELETE FROM tb_produtos WHERE id_produto = " + idProduto);
-            stmt.close();
+        String sql = "DELETE FROM tb_produtos WHERE id_produto = ?";
+        
+        try (Connection conn = this.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            if (conn == null) return false;
+
+            stmt.setInt(1, idProduto); 
+            
+            int linhasAfetadas = stmt.executeUpdate();
+            
+            return linhasAfetadas > 0;
+
         } catch (SQLException erro) {
             System.out.println("Erro ao deletar produto: " + erro.getMessage());
+            return false;
         }
-
-        return true;
     }
 
     // ==========================
-    // ATUALIZAR
+    // ATUALIZAR (Refatorado com TWR)
     // ==========================
     public boolean updateProdutoBD(Produto p) {
         String sql = """
@@ -191,8 +191,10 @@ public class ProdutoDAO {
         WHERE id_produto = ?
         """;
 
-        try {
-            PreparedStatement stmt = this.getConexao().prepareStatement(sql);
+        try (Connection conn = this.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            if (conn == null) return false;
 
             stmt.setString(1, p.getNomeProduto());
             stmt.setString(2, p.getDescricaoProduto());
@@ -203,46 +205,49 @@ public class ProdutoDAO {
             stmt.setDouble(7, p.getPrecoVenda());
             stmt.setInt(8, p.getIdProduto());
 
-            stmt.execute();
-            stmt.close();
+            int linhasAfetadas = stmt.executeUpdate();
 
-            return true;
+            return linhasAfetadas > 0;
 
         } catch (SQLException erro) {
-            throw new RuntimeException(erro);
+            System.out.println("Erro ao atualizar produto: " + erro.getMessage());
+            return false;
         }
     }
 
     // ==========================
-    // CARREGAR UM PRODUTO
+    // CARREGAR UM PRODUTO (Refatorado para PreparedStatement e TWR)
     // ==========================
     public Produto carregaProduto(int idProduto) {
-        Produto p = new Produto();
-        p.setIdProduto(idProduto);
+        String sql = "SELECT * FROM tb_produtos WHERE id_produto = ?";
+        Produto p = null;
 
-        try {
-            Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM tb_produtos WHERE id_produto = " + idProduto);
+        try (Connection conn = this.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            if (res.next()) {
-                p.setNomeProduto(res.getString("nome_produto"));
-                p.setDescricaoProduto(res.getString("descricao_produto"));
-                p.setCategoria(res.getString("categoria"));
-                p.setFornecedor(res.getString("fornecedor"));
-                p.setQuantidadeEstoque(res.getInt("quantidade_estoque"));
-                p.setPrecoCusto(res.getDouble("preco_custo"));
-                p.setPrecoVenda(res.getDouble("preco_venda"));
+            if (conn == null) return null;
+            
+            stmt.setInt(1, idProduto);
+            
+            try (ResultSet res = stmt.executeQuery()) {
+                if (res.next()) {
+                    p = new Produto(); 
+                    p.setIdProduto(res.getInt("id_produto"));
+                    p.setNomeProduto(res.getString("nome_produto"));
+                    p.setDescricaoProduto(res.getString("descricao_produto"));
+                    p.setCategoria(res.getString("categoria"));
+                    p.setFornecedor(res.getString("fornecedor"));
+                    p.setQuantidadeEstoque(res.getInt("quantidade_estoque"));
+                    p.setPrecoCusto(res.getDouble("preco_custo"));
+                    p.setPrecoVenda(res.getDouble("preco_venda"));
 
-                if (res.getDate("data_cadastro") != null)
-                    p.setDataCadastro(res.getDate("data_cadastro").toLocalDate());
-            }
-
-            stmt.close();
-
+                    if (res.getDate("data_cadastro") != null)
+                        p.setDataCadastro(res.getDate("data_cadastro").toLocalDate());
+                }
+            } 
         } catch (SQLException erro) {
             System.out.println("Erro ao carregar produto: " + erro.getMessage());
         }
-
         return p;
     }
 }

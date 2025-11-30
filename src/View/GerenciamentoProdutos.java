@@ -1,120 +1,87 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package View;
+
+import DAO.ProdutoDAO;
+import Model.Produto;
 import java.util.ArrayList;
-import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
-/**
- *
- * @author Luiz
- */
+import javax.swing.JOptionPane;
+import java.awt.Dimension;
+
 public class GerenciamentoProdutos extends javax.swing.JFrame {
- 
-    public static ArrayList<Object[]> listaDeDados = new ArrayList<>();  
+   
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GerenciamentoProdutos.class.getName());
 
    
     public GerenciamentoProdutos() {
         initComponents();
-        java.awt.Dimension tamanhoFixo = new java.awt.Dimension(160, 40);
+        // config tamanho dos botoes
+        Dimension tamanhoFixo = new Dimension(160, 40);
+        btnAdicionar.setPreferredSize(tamanhoFixo);
+        btnAdicionar.setMinimumSize(tamanhoFixo);
+        btnAdicionar.setMaximumSize(tamanhoFixo);
 
-//comanddo pra n mmudar o tamanho do botao
-
-btnAdicionar.setPreferredSize(tamanhoFixo);
-btnAdicionar.setMinimumSize(tamanhoFixo);
-btnAdicionar.setMaximumSize(tamanhoFixo);
-
-
-
-
-btnRemover.setPreferredSize(tamanhoFixo);
-btnRemover.setMinimumSize(tamanhoFixo);
-btnRemover.setMaximumSize(tamanhoFixo);
-                try {
-
-        java.awt.Image iconeTitulo = java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagens/logoicon.png"));
+        btnRemover.setPreferredSize(tamanhoFixo);
+        btnRemover.setMinimumSize(tamanhoFixo);
+        btnRemover.setMaximumSize(tamanhoFixo);
         
-        
-        this.setIconImage(iconeTitulo);
-        
-    } catch (Exception e) {
-        System.out.println("Imagem do ícone não encontrada!");
-    }
-
-javax.swing.table.DefaultTableCellRenderer pintor = new javax.swing.table.DefaultTableCellRenderer() {
-    @Override
-    public java.awt.Component getTableCellRendererComponent(
-            javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        
-      
-        java.awt.Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
+        // icone da janela
         try {
-           
-            Object valorEstoque = table.getValueAt(row, 2); 
-            int estoque = Integer.parseInt(valorEstoque.toString());
-
-           
-            if (isSelected) {
-                
-                c.setBackground(table.getSelectionBackground());
-                c.setForeground(table.getSelectionForeground());
-                
-            } else {
-               
-                if (estoque < 5) {
-                    c.setBackground(new java.awt.Color(255, 102, 102)); 
-                    c.setForeground(java.awt.Color.WHITE); 
-                } else {
-                  
-                    c.setBackground(java.awt.Color.WHITE);
-                    c.setForeground(java.awt.Color.BLACK);
-                }
-            }
+            java.awt.Image iconeTitulo = java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagens/logoicon.png"));
+            this.setIconImage(iconeTitulo);
         } catch (Exception e) {
-            
-            if (!isSelected) {
-                c.setBackground(java.awt.Color.WHITE);
-                c.setForeground(java.awt.Color.BLACK);
-            }
+            System.out.println("icone não encontrado");
         }
-        return c;
-    }
-};
 
+        // renderizador pra pintar estoque baixo de vermelho
+        javax.swing.table.DefaultTableCellRenderer pintor = new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public java.awt.Component getTableCellRendererComponent(
+                    javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                
+                java.awt.Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                try {
+                    // ATENÇÃO: agora o estoque é a coluna 4 (contando id, cat, nome, desc...)
+                    Object valorEstoque = table.getValueAt(row, 4); 
+                    int estoque = Integer.parseInt(valorEstoque.toString());
+
+                    if (isSelected) {
+                        c.setBackground(table.getSelectionBackground());
+                        c.setForeground(table.getSelectionForeground());
+                    } else {
+                        if (estoque < 5) {
+                            c.setBackground(new java.awt.Color(255, 102, 102)); 
+                            c.setForeground(java.awt.Color.WHITE); 
+                        } else {
+                            c.setBackground(java.awt.Color.WHITE);
+                            c.setForeground(java.awt.Color.BLACK);
+                        }
+                    }
+                } catch (Exception e) {
+                    if (!isSelected) {
+                        c.setBackground(java.awt.Color.WHITE);
+                        c.setForeground(java.awt.Color.BLACK);
+                    }
+                }
+                return c;
+            }
+        };
 
         for (int i = 0; i < tabelaProdutos.getColumnCount(); i++) {
-         tabelaProdutos.getColumnModel().getColumn(i).setCellRenderer(pintor);
-}
+             tabelaProdutos.getColumnModel().getColumn(i).setCellRenderer(pintor);
+        }
 
         this.setLocationRelativeTo(null);
-          this.setResizable(false);
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaProdutos.getModel();
-        modelo.setRowCount(0);
-        
-    for (Object[] linha : listaDeDados) {
-        modelo.addRow(linha);
-        
-    }
-    
+        this.setResizable(false);
         tabelaProdutos.getTableHeader().setReorderingAllowed(false);
-    }
-public static void adicionarNaMemoria(Object[] novaLinha) {
-    listaDeDados.add(novaLinha);
-
-}
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+        
+        // CHAMA O BANCO DE DADOS AGORA
+        carregarTabelaDoBanco();
+        
+ }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -146,6 +113,8 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtCategoria = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtDescricao = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         txtBuscar = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -212,7 +181,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 30, Short.MAX_VALUE)
+                .addGap(0, 20, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton5)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -251,17 +220,17 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
 
         tabelaProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Categoria", "Produto", "Estoque", "Fornecedor", "Preço de custo", "Preço de venda", "Lucro"
+                "ID", "Categoria", "Produto", "Descrição", "Estoque", "Fornecedor", "Preço de Custo", "Preço de Venda", "Lucro"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -282,6 +251,8 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
             tabelaProdutos.getColumnModel().getColumn(4).setResizable(false);
             tabelaProdutos.getColumnModel().getColumn(5).setResizable(false);
             tabelaProdutos.getColumnModel().getColumn(6).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(7).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(8).setResizable(false);
         }
 
         btnRemover.setBackground(new java.awt.Color(102, 0, 0));
@@ -333,6 +304,10 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jLabel6.setText("Preço de custo:");
 
+        jLabel12.setText("Descrição");
+
+        txtDescricao.addActionListener(this::txtDescricaoActionPerformed);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -369,11 +344,21 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(130, 130, 130))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(jLabel12)
+                .addGap(60, 60, 60)
+                .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -539,7 +524,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
         );
 
@@ -547,13 +532,7 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-
-        GerenciamentoProdutos tela = new GerenciamentoProdutos();
-
-        tela.setLocationRelativeTo(null);
-
-        tela.setVisible(true); 
-         this.dispose(); 
+      javax.swing.JOptionPane.showMessageDialog(this, "Você já está nesta tela!");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -595,155 +574,107 @@ public static void adicionarNaMemoria(Object[] novaLinha) {
 
     private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked
 
-    int linhaSelecionada = tabelaProdutos.getSelectedRow();
-    
-   
-    if (linhaSelecionada != -1) {
-        
-    
-        txtCategoria.setText(tabelaProdutos.getValueAt(linhaSelecionada, 0).toString());
-        txtProduto.setText(tabelaProdutos.getValueAt(linhaSelecionada, 1).toString());
-        txtEstoque.setText(tabelaProdutos.getValueAt(linhaSelecionada, 2).toString());
-        txtFornecedor.setText(tabelaProdutos.getValueAt(linhaSelecionada, 3).toString());
-        
-      
-        String custoTabela = tabelaProdutos.getValueAt(linhaSelecionada, 4).toString();
-        String vendaTabela = tabelaProdutos.getValueAt(linhaSelecionada, 5).toString();
-        
-        
-        String custoLimpo = custoTabela.replace("R$", "").replace(" ", "");
-        String vendaLimpa = vendaTabela.replace("R$", "").replace(" ", "");
-        
-       
-        txtPrecoCusto.setText(custoLimpo);
-        txtPrecoVenda.setText(vendaLimpa);
-    
-    }
+    int linha = tabelaProdutos.getSelectedRow();
+        if (linha != -1) {
+            // joga os dados da tabela para os campos de texto
+            // Cuidado com a ordem das colunas da sua tabela no Design!
+            
+            txtCategoria.setText(tabelaProdutos.getValueAt(linha, 1).toString());
+            txtProduto.setText(tabelaProdutos.getValueAt(linha, 2).toString());
+            
+            Object desc = tabelaProdutos.getValueAt(linha, 3);
+            if(desc != null) txtDescricao.setText(desc.toString()); 
+            else txtDescricao.setText("");
+
+            txtEstoque.setText(tabelaProdutos.getValueAt(linha, 4).toString());
+            txtFornecedor.setText(tabelaProdutos.getValueAt(linha, 5).toString());
+            
+            // limpa o R$ para poder editar
+            String custo = tabelaProdutos.getValueAt(linha, 6).toString().replace("R$", "").trim();
+            String venda = tabelaProdutos.getValueAt(linha, 7).toString().replace("R$", "").trim();
+            
+            txtPrecoCusto.setText(custo);
+            txtPrecoVenda.setText(venda);
+        }
         
     }//GEN-LAST:event_tabelaProdutosMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-try {
-  
-    String custoLimpo = txtPrecoCusto.getText()
-            .replace("R$", "")  
-            .replace(" ", "")   
-            .replace(",", "."); 
+int linha = tabelaProdutos.getSelectedRow();
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um produto para editar.");
+            return;
+        }
 
-    String vendaLimpa = txtPrecoVenda.getText()
-            .replace("R$", "")
-            .replace(" ", "")
-            .replace(",", ".");
-
-   
-    double custo = Double.parseDouble(custoLimpo);
-    double venda = Double.parseDouble(vendaLimpa);
-    
-    
-    double lucro = venda - custo;
-
-    
-    
-} catch (NumberFormatException e) {
-    javax.swing.JOptionPane.showMessageDialog(this, "Erro: O valor informado não é um número válido!");
-}
-        int linhaSelecionada = tabelaProdutos.getSelectedRow();
-    
-    if (linhaSelecionada != -1) {
         try {
+            // pega o ID da coluna 0 (que deve estar visível ou oculta na tabela)
+            int idProduto = Integer.parseInt(tabelaProdutos.getValueAt(linha, 0).toString());
             
-            String custoStr = txtPrecoCusto.getText().replace("R$", "").replace(" ", "").replace(",", ".");
-            String vendaStr = txtPrecoVenda.getText().replace("R$", "").replace(" ", "").replace(",", ".");
+            String categoria = txtCategoria.getText();
+            String produtoNome = txtProduto.getText();
+            String descricao = txtDescricao.getText(); 
+            int estoque = Integer.parseInt(txtEstoque.getText());
+            String fornecedor = txtFornecedor.getText();
             
-            double custo = Double.parseDouble(custoStr);
-            double venda = Double.parseDouble(vendaStr);
-            
-           
-            double lucro = venda - custo;
+            // trata preço com virgula ou ponto
+            double custo = Double.parseDouble(txtPrecoCusto.getText().replace(",", ".").replace("R$", "").trim());
+            double venda = Double.parseDouble(txtPrecoVenda.getText().replace(",", ".").replace("R$", "").trim());
 
-           
-            NumberFormat formatador = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-            
-            
-            tabelaProdutos.setValueAt(txtCategoria.getText(), linhaSelecionada, 0);
-            tabelaProdutos.setValueAt(txtProduto.getText(), linhaSelecionada, 1);
-            tabelaProdutos.setValueAt(txtEstoque.getText(), linhaSelecionada, 2);
-            tabelaProdutos.setValueAt(txtFornecedor.getText(), linhaSelecionada, 3);
-            
-            
-            tabelaProdutos.setValueAt(formatador.format(custo), linhaSelecionada, 4); // Custo
-            tabelaProdutos.setValueAt(formatador.format(venda), linhaSelecionada, 5); // Venda
-            tabelaProdutos.setValueAt(formatador.format(lucro), linhaSelecionada, 6); // Lucro
+            Produto p = new Produto();
+            p.setIdProduto(idProduto); // PRECISA DO ID PRA SABER QUEM ATUALIZAR
+            p.setCategoria(categoria);
+            p.setNomeProduto(produtoNome);
+            p.setDescricaoProduto(descricao);
+            p.setQuantidadeEstoque(estoque);
+            p.setFornecedor(fornecedor);
+            p.setPrecoCusto(custo);
+            p.setPrecoVenda(venda);
 
-            
-            txtCategoria.setText("");
-            txtProduto.setText("");
-            txtEstoque.setText("");
-            txtFornecedor.setText("");
-            txtPrecoCusto.setText("");
-            txtPrecoVenda.setText("");
-            
-            javax.swing.JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
+            ProdutoDAO dao = new ProdutoDAO();
+            if(dao.updateProdutoBD(p)) {
+                JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
+                carregarTabelaDoBanco(); // recarrega lista
+                btnCancelarActionPerformed(null); // limpa campos
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar.");
+            }
 
         } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Erro: Digite apenas números válidos nos preços (ex: 10.50)");
+            JOptionPane.showMessageDialog(this, "Erro nos valores numéricos. Verifique preço e estoque.");
         }
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Selecione um produto para editar.");
-    }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+int linha = tabelaProdutos.getSelectedRow();
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um produto para excluir.");
+            return;
+        }
 
-    int linhaSelecionada = tabelaProdutos.getSelectedRow();
-    
-    
-    if (linhaSelecionada == -1) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Selecione um produto na tabela para excluir.");
-        return; 
-    }
+        // pega o ID pra deletar do banco
+        int idProduto = Integer.parseInt(tabelaProdutos.getValueAt(linha, 0).toString());
 
-    
-    int resposta = javax.swing.JOptionPane.showConfirmDialog(
-            this, 
-            "Tem certeza que deseja apagar este produto?", 
-            "Excluir Produto", 
-            javax.swing.JOptionPane.YES_NO_OPTION
-    );
-
-  
-    if (resposta == javax.swing.JOptionPane.YES_OPTION) {
-        
-      
-        DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
-        
-        
-        modelo.removeRow(linhaSelecionada);
-        
-       
-        txtCategoria.setText("");
-        txtProduto.setText("");
-        txtEstoque.setText("");
-        txtFornecedor.setText("");
-        txtPrecoCusto.setText("");
-        txtPrecoVenda.setText("");
-        
-        javax.swing.JOptionPane.showMessageDialog(this, "Produto excluído com sucesso!");
-    }        
+        if (JOptionPane.showConfirmDialog(this, "Tem certeza que deseja apagar?", "Excluir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            ProdutoDAO dao = new ProdutoDAO();
+            if (dao.deleteProdutoBD(idProduto)) {
+                JOptionPane.showMessageDialog(this, "Produto excluído!");
+                carregarTabelaDoBanco();
+                btnCancelarActionPerformed(null);
+            }
+        }
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
-    txtCategoria.setText("");
-    txtProduto.setText("");
-    txtEstoque.setText("");
-    txtFornecedor.setText("");
-    txtPrecoCusto.setText("");
-    txtPrecoVenda.setText("");
-    
-    tabelaProdutos.clearSelection();
-    
-    txtCategoria.requestFocus();       
+// limpa tudo
+        txtCategoria.setText("");
+        txtProduto.setText("");
+        txtDescricao.setText(""); 
+        txtEstoque.setText("");
+        txtFornecedor.setText("");
+        txtPrecoCusto.setText("");
+        txtPrecoVenda.setText("");
+        tabelaProdutos.clearSelection();      
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void jPanel4AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanel4AncestorAdded
@@ -760,36 +691,17 @@ try {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
-    DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
-    TableRowSorter<DefaultTableModel> classificador = new TableRowSorter<>(modelo);
-    tabelaProdutos.setRowSorter(classificador);
-    
-    String texto = txtBuscar.getText().trim();
-    
-  
-    if (texto.length() == 0) {
-        classificador.setRowFilter(null); 
-        javax.swing.JOptionPane.showMessageDialog(this, "Digite algo para buscar!");
-        return; 
-    }
-
-    try {
-       
-        classificador.setRowFilter(RowFilter.regexFilter("(?i)" + Pattern.quote(texto)));
+DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
+        TableRowSorter<DefaultTableModel> classificador = new TableRowSorter<>(modelo);
+        tabelaProdutos.setRowSorter(classificador);
         
-        
-        if (tabelaProdutos.getRowCount() == 0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Nenhum produto encontrado com o nome: " + texto);
-            
-           
-            classificador.setRowFilter(null); 
-            txtBuscar.setText("");
-            txtBuscar.requestFocus();
+        String texto = txtBuscar.getText().trim();
+        if (texto.length() == 0) {
+            classificador.setRowFilter(null);
+            return;
         }
-
-    } catch (Exception e) {
-        classificador.setRowFilter(null);
-    }
+        // filtro inteligente (ignora maiuscula/minuscula)
+        classificador.setRowFilter(RowFilter.regexFilter("(?i)" + Pattern.quote(texto)));
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -803,6 +715,10 @@ try {
     
     txtBuscar.requestFocus();        
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDescricaoActionPerformed
 
  
     public static void main(String args[]) {
@@ -851,6 +767,7 @@ try {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -869,10 +786,33 @@ try {
     private javax.swing.JTable tabelaProdutos;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCategoria;
+    private javax.swing.JTextField txtDescricao;
     private javax.swing.JTextField txtEstoque;
     private javax.swing.JTextField txtFornecedor;
     private javax.swing.JTextField txtPrecoCusto;
     private javax.swing.JTextField txtPrecoVenda;
     private javax.swing.JTextField txtProduto;
     // End of variables declaration//GEN-END:variables
+// busca os dados no banco e preenche a tabela visual
+    private void carregarTabelaDoBanco() {
+        DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
+        modelo.setNumRows(0); // limpa a tabela
+        
+        ProdutoDAO dao = new ProdutoDAO();
+        ArrayList<Produto> lista = dao.getListaProdutos();
+        
+        for (Produto p : lista) {
+            modelo.addRow(new Object[]{
+                p.getIdProduto(),      
+                p.getCategoria(),       
+                p.getNomeProduto(),      
+                p.getDescricaoProduto(),  
+                p.getQuantidadeEstoque(),
+                p.getFornecedor(),        
+                String.format("R$ %.2f", p.getPrecoCusto()), 
+                String.format("R$ %.2f", p.getPrecoVenda()), 
+                String.format("R$ %.2f", p.getLucro())       
+            });
+        }
+    }
 }
